@@ -1,6 +1,6 @@
-export const ADD_TITLE =(data)=>{
+export const ADD_CARD =(data)=>{
     return{
-        type : "ADD_CARD",
+        type : "addCard",
         payload : data
     }
 }

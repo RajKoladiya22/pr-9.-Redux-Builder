@@ -3,15 +3,17 @@ import { Container, Form } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useDispatch } from 'react-redux';
-import { ADD_TITLE } from '../redux/action/action';
+import { ADD_CARD } from '../redux/action/action';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const Note = () => {
     const [record, setRecord] = useState([])
     const dispatch = useDispatch();
     const [Title, setTitle] = useState('')
+    const [Description, setDescription] = useState('')
 
-    const GetData =async()=>{
+    const GetData = async () => {
         let all = await axios.get("http://localhost:3000/card");
 
         setRecord(all.data);
@@ -19,13 +21,19 @@ export const Note = () => {
 
     const handalSubmit = (e) => {
         e.preventDefault();
-        dispatch(ADD_TITLE(Title));
+        let obj = {
+            title: Title,
+            description: Description
+        }
+        dispatch(ADD_CARD(obj));
+        toast.success("User successfully create");
+
     }
 
 
-    useEffect(()=>{
+    useEffect(() => {
         GetData();
-    },[])
+    }, [])
 
     return (
         <>
@@ -37,8 +45,8 @@ export const Note = () => {
                                 <input type="text" onChange={(e) => setTitle(e.target.value)} value={Title} />
                             </Card.Title>
                             <Card.Text>
-                                Some quick example text to build on the card title and make up the
-                                bulk of the card's content.
+                                <input type="text" onChange={(e) => setDescription(e.target.value)} value={Description} />
+
                             </Card.Text>
                             <Button type='submit' variant="primary">Go somewhere</Button>
                         </Card.Body>
@@ -46,21 +54,21 @@ export const Note = () => {
                 </Form>
 
                 {
-                    record.map((val)=>{
-                        const {title, description} = val
-                        return(
-                            <Card style={{ width: '18rem' }}>
-                        <Card.Body>
-                            <Card.Title>
-                                {title}
-                            </Card.Title>
-                            <Card.Text>
-                                {description}
+                    record.map((val) => {
+                        const { title, description } = val
+                        return (
+                            <Card style={{ width: '18rem' }} key={val.id}>
+                                <Card.Body>
+                                    <Card.Title>
+                                        {title}
+                                    </Card.Title>
+                                    <Card.Text>
+                                        {description}
 
-                            </Card.Text>
-                            <Button type='submit' variant="primary">Go somewhere</Button>
-                        </Card.Body>
-                    </Card>
+                                    </Card.Text>
+                                    <Button type='submit' variant="primary">Go somewhere</Button>
+                                </Card.Body>
+                            </Card>
                         )
                     })
                 }

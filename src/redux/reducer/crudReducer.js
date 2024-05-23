@@ -6,7 +6,7 @@ const intState = {
 
 export const cardReducer = async (state = intState, action) => {
   switch (action.type) {
-    case "ADD_CARD":
+    case "addCard":
       try {
         let all = await fetch(`http://localhost:3000/card`, {
           method: "POST",
@@ -14,15 +14,14 @@ export const cardReducer = async (state = intState, action) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            title: action.payload,
-            // description: description,
+            title: action.payload.title,
+            description: action.payload.description,
           }),
         });
         let res = await all.json();
         if (res) {
-            console.log(`done`);
-            toast.success("User successfully create");
-            return state;
+          console.log(`done`);
+          return state;
         } else {
           toast.error("please try again");
         }
