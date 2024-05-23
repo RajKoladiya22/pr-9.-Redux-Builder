@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Container } from 'react-bootstrap'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Note } from './assets/note'
+import View from './assets/view'
 function App() {
   
 
@@ -9,6 +10,7 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<Note/>} />
+      <Route path="/view" element={<View/>} />
     </Routes>
     </BrowserRouter>
   )
